@@ -136,7 +136,8 @@ try:
                 "fname" : splitName[0], 
                 "lname" : splitName[1], 
                 "LocationNumber" : LocationPhone, 
-                "Student(s)Name(s)" : StudentName }
+                "Student(s)Name(s)" : StudentName 
+                "timezone": "All classes are listed in Eastern Time." }
 
     # Check class is no summer camp & only one class was registered
     elif "Summer" not in Class: 
@@ -154,7 +155,8 @@ try:
                     "zoom" : zoomLink, 
                     "ClassAddress" : LocationAddresses, 
                     "LocationNumber" : LocationPhone, 
-                    "Student(s)Name(s)" : StudentName }
+                    "Student(s)Name(s)" : StudentName
+                    "timezone": "All classes are listed in Eastern Time." }
             
         # free trial,  >=1 student
         elif ("trial" in Class.lower()): 
@@ -169,7 +171,8 @@ try:
                     "zoom" : zoomLink,  
                     "ClassAddress" : LocationAddresses , 
                     "LocationNumber" : LocationPhone, 
-                    "Student(s)Name(s)" : StudentName }
+                    "Student(s)Name(s)" : StudentName 
+                    "timezone": "All classes are listed in Eastern Time." }
     
     # single summer camps
     elif "Summer" in Class and Class.count("Summer") == 1: # single summer camps
@@ -185,7 +188,8 @@ try:
                 "StartDate" : startdate, 
                 "EndDate" : enddate, 
                 "StudentName" : StudentName, 
-                "CampMessage" : campMessage[location] }
+                "CampMessage" : campMessage[location] 
+                "timezone": "All classes are listed in Eastern Time." }
     else:
         output = {"output": "Multiple Classes"}
         
