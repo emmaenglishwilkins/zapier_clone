@@ -39,7 +39,7 @@ try:
     #City = input_data["City"]
     #State = input_data["State"]
     #Address = input_data["Street1"] + " "
-    
+
 
     #Location Address and Phone number and other information
     TeacherName = ""
@@ -49,7 +49,7 @@ try:
     except:
         location = "No Location"
     zoomLink = ""
-    
+
     #Check if a Teacher Has been assigned
     if InputID != "No ID" and location != "Double": 
         TeacherName = input_data["TeachName"]
@@ -88,15 +88,15 @@ try:
         trialLink += type + "-class-" + location.lower().replace(" ", "")
         if location == "Park Slope" or location == "Cobble Hill":
             trialLink += "-brooklyn"
-        
+
     print(trialLink)
-    
+
     # Split the input data so we can clean it up later. Get individual instances 
     splitdates = Dates.split(",") 
     splittimes = Times.split(" ") 
     splitClasses = Class.split(",") # split names of input classes
     splitName = CustomerName.split(" ") # split first and last name of parent
-    
+
     # Figure out Student name based on if there is 1 or >1 student listed:
     splitnames = StudentName.split(",")
     if len(splitnames) > 1 and splitnames[1] == "": #no real second student (ex: "John Doe, ")
@@ -108,20 +108,21 @@ try:
         #Clean up multiple student names for Email formatting (ex: Jane Doe and John Doe)
         StudentName += "and" + splitnames[len(splitnames)-1]
 
-    
-    #All the dates sometimes come in unsorts. This just sorts them and cleans them up
-    sortedDates = []
-    for date in splitdates:
-        splitDate = date.split("-")
-        sortedDates.append(splitDate[1] + "/" + splitDate[2] + "/" + splitDate[0])
-   
-    sortedDates.sort()
-    startdate = sortedDates[0]
-    enddate = startdate
+    unique_dates = list(set(splitdates)) # remove duplicate dates         
+    unique_dates.sort() # sort dates 
 
-    if len(sortedDates) > 1:
-        enddate = sortedDates[len(sortedDates)-1]
-       
+    sorted_dates = []
+    for date in unique_dates: 
+        year, month, day = date.split('-')
+        sorted_dates.append(f"{month}/{day}/{year}")
+
+
+    startdate = sorted_dates[0]
+    if len(sorted_dates) > 1: 
+      enddate = sorted_dates[-1]
+    else: 
+        enddate = startdate
+
     # Missing student name field, error
     if len(splitClasses) > 1 and "Summer" not in Class: 
         output = {"output": ">1 Class"}
@@ -155,7 +156,7 @@ try:
                     "ClassAddress" : LocationAddresses, 
                     "LocationNumber" : LocationPhone, 
                     "Student(s)Name(s)" : StudentName }
-            
+
         # free trial,  >=1 student
         elif ("trial" in Class.lower()): 
             output = {"output": "Free Trial", 
@@ -170,7 +171,7 @@ try:
                     "ClassAddress" : LocationAddresses , 
                     "LocationNumber" : LocationPhone, 
                     "Student(s)Name(s)" : StudentName  }
-    
+
     # single summer camps
     elif "Summer" in Class and Class.count("Summer") == 1: # single summer camps
         #All the dates from summer camps come in unsorts. This just sorts them
@@ -188,6 +189,7 @@ try:
                 "CampMessage" : campMessage[location] }
     else:
         output = {"output": "Multiple Classes"}
-        
+
 except:
     output = {"output": "Missing Information"}
+
